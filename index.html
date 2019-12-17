@@ -274,9 +274,18 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 				//layer.setIcon(icon);
 				layer.on('click', function(e) {
 					var currentZoom = map.getZoom();
-					console.log(feature.properties.type);
+					console.log(feature.properties.pics);
 					map.flyTo(e.target.getLatLng(), (currentZoom < 18 ) ? currentZoom + 0.5 : currentZoom );
-					$(".slider-inner").html( "<img src='img/Img1.jpg' class='active'>" );
+					$(".slider-inner").html( "" );
+					for (let i = 0 ; i < feature.properties.pics; i ++){
+						if (i==0){
+							$(".slider-inner").append(`<img src='img/${feature.properties.type}/${i+1}.jpg' class='active'>`)
+						}else{
+							$(".slider-inner").append(`<img src='img/${feature.properties.type}/${i+1}.jpg'>`)
+						} 
+						
+					}
+					// $(".slider-inner").html( "<img src='img/Img1.jpg' class='active'>" );
 
 
 				});
