@@ -47,7 +47,8 @@
 			position: absolute;
 			top: 0;
 			bottom: 0;
-			width: 100%;
+			width: 75%;
+			left: 25%;
             
 		}
 		#about {
@@ -137,7 +138,9 @@
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 	<!-- Load a Leaflet plugin to provide geolocation. -->
 	<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+	<script src="data/locations.js"></script>
 	<script>
+	
 
 // Lat, Lon : 11.95872339364665, -68.61854553222658 
 // Lat, Lon : 12.403718327470736, -69.19807434082033
@@ -179,7 +182,15 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 		// L.marker(map.getCenter())
 		// 	.bindPopup(message)
 		// 	.addTo(map)
-
+		//console.log(places.features[0].properties);
+		props= places.features;
+		for(let i =0 ; i < props.length; i++){
+			console.log(props[i].coordinates);
+			var marker = new L.marker(props[i].geometry.coordinates);
+		    marker.addTo(map);
+			//L.marker(props[i].coordinates).addTo(map)
+		}
+		
         map.on('click', function (e) {
             console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
         });
