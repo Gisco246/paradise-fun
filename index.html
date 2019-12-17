@@ -17,6 +17,9 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="  crossorigin="anonymous"></script>
 	
 	<style>
+		* {
+		box-sizing: border-box;
+		}
 		body {
 			margin: 0;
 			padding: 0;
@@ -28,7 +31,7 @@
 			position: absolute;
 			margin-top: 0;
 			top: 10px;
-			left: 31%;
+			left: 470px;
 			font-size: 1.5em;
 			font-family: 'Quicksand', sans-serif;
 			font-weight: 700;
@@ -47,17 +50,15 @@
 			letter-spacing: .04em;
 		}
 		#map {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width: 70%;
-			left: 30%;
+			height: 100vh;
+			width: 100%;
+			
             
 		}
 		#about {
 			position: absolute;
 			bottom: 20px;
-			left: 31%;
+			left: 470px;
 			width: 280px;
 			padding: 0 15px;
 			/* Add styles to match Leaflet UI elements */
@@ -70,13 +71,13 @@
 		
 		
         #leftbar {
-            position: absolute;
+            height: 100%;
+			width: 450px;
+			position: fixed;
+			z-index: 1;
 			top: 0;
 			left: 0;
-			width: 30%;
-            height: 100vh;
-			padding: 0;background: rgba(0, 0, 0, .1);
-			margin:0;
+			overflow-x: hidden;
 			/* Add styles to match Leaflet UI elements 
 			
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
@@ -84,6 +85,14 @@
 			border-radius: 5px;
 			z-index: 800;*/
         }
+		#right
+		 {
+			margin-left: 450px;
+			padding-left:0;
+			background: darkgoldenrod;
+			width: 100vv;
+			height:100vh;
+		}
 		p {
 			font-size: .9em;
 			line-height: 1.5em;
@@ -181,7 +190,7 @@
 
 	<h1>Fun on Paradise</h1>
 
-	<div id='map'></div>
+	
     <section id = "leftbar">
 		<div class="container">
 			
@@ -195,7 +204,11 @@
 			  <img src="img/arrow-right.png" class="next" alt="Next">
 			
 		  </div>
-		  </div>
+		</div>
+	</section>
+	<section id = "right">
+		<div id='map'></div>
+
 	</section>
 	<section id="about">
 		<h2>About this</h2>
