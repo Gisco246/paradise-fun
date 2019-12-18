@@ -118,6 +118,11 @@
 		margin:40px auto;
 		overflow:none;
 }
+#info{
+	margin-left :15px;
+	margin-right: 10px;
+	bottom :0;
+}
 
 .slider-inner{
 	width:90%;
@@ -149,12 +154,14 @@
 	position:relative;
 	margin-right:-45px;
 	z-index:1000;
+	visibility:hidden;
 }
 
 .next{
 	position:relative;
 	margin-left:-45px;
 	z-index:1000;
+	visibility:hidden;
 }
 
 		/* 
@@ -205,7 +212,12 @@
 			
 		  </div>
 		</div>
+	<div  id="info">
+		
+		tesafrrrr</div>
+	
 	</section>
+		
 	<section id = "right">
 		<div id='map'></div>
 
@@ -288,13 +300,23 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 				layer.on('click', function(e) {
 					var currentZoom = map.getZoom();
 					console.log(feature.properties.pics);
-					map.flyTo(e.target.getLatLng(), (currentZoom < 18 ) ? currentZoom + 0.5 : currentZoom );
-					$(".slider-inner").html( "" );
+					map.flyTo(e.target.getLatLng(), (currentZoom < 13 ) ? currentZoom + 0.5 : currentZoom );
+					$("#info").html(layer.feature.properties.description);
+					$(".slider-inner").html( '' );
+					if(feature.properties.pics == 1){
+						$('.next').css('visibility','hidden');
+						$('.prev').css('visibility','hidden');
+					}else if (feature.properties.pics > 1){
+						$('.next').css('visibility','visible');
+						$('.prev').css('visibility','hidden');
+					}
 					for (let i = 0 ; i < feature.properties.pics; i ++){
 						if (i==0){
 							$(".slider-inner").append(`<img src='img/${feature.properties.type}/${i+1}.jpg' class='active'>`)
+							
 						}else{
 							$(".slider-inner").append(`<img src='img/${feature.properties.type}/${i+1}.jpg'>`)
+							
 						} 
 						
 					}
@@ -331,24 +353,34 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 	
 		$(document).ready(function(){
   $('.next').on('click', function(){
-    var currentImg = $('.active');
-    var nextImg = currentImg.next();
 
-    if(nextImg.length){
-      currentImg.removeClass('active').css('z-index', -10);
-      nextImg.addClass('active').css('z-index', 10);
-    }
-  });
+		var currentImg = $('.active');
+		var nextImg = currentImg.next();
 
-  $('.prev').on('click', function(){
-    var currentImg = $('.active');
-    var prevImg = currentImg.prev();
+		if(nextImg.length){
+		currentImg.removeClass('active').css('z-index', -10);
+		nextImg.addClass('active').css('z-index', 10);
+			$('.next').css('visibility','visible');
+			$('.prev').css('visibility','visible');
+		}else{
+			$('.next').css('visibility','hidden');
+			
+		}
+	});
 
-    if(prevImg.length){
-      currentImg.removeClass('active').css('z-index', -10);
-      prevImg.addClass('active').css('z-index', 10);
-    }
-  });
+	$('.prev').on('click', function(){
+		var currentImg = $('.active');
+		var prevImg = currentImg.prev();
+
+		if(prevImg.length){
+		currentImg.removeClass('active').css('z-index', -10);
+		prevImg.addClass('active').css('z-index', 10);
+		$('.prev').css('visibility','visible');
+		}else{
+			$('.next').css('visibility','visible');
+			$('.prev').css('visibility','hidden');
+		}
+	});
 });
 
 	</script>
