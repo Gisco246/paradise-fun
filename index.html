@@ -312,8 +312,10 @@
 	</section>
 	<section id="about">
 		<h2>About this</h2>
-			<p>This map was created using leaflet and all pictures are from the respective establishment instagram page. The data locations was acquired from  <a href="https://www.google.com/maps">the data</a> and map goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna magna, maximus nec laoreet sit amet, dictum ultricies nibh. Ut id auctor lacus. Nam a dolor et justo luctus luctus. </p>
-			<p>Map authored by me, MY NAME</p>
+			<p>This map was created using leaflet and all pictures are from the respective establishment instagram page. The data locations was acquired from  
+				<a href="https://www.google.com/maps">the data</a> and map goes here. 
+				 </p>
+			<p>Map authored by me, Giscard Gomperts</p>
 	</section>
 </div>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
@@ -375,16 +377,19 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 			
 			//L.marker(props[i].geometry.coordinates).addTo(map)
 		}
-		
+		const typeIconURL = {};
 		var pointsLayer = L.geoJSON(places, {
 			style: function (feature) {
 				return {color: feature.properties.color};
 			},
 			onEachFeature : function(feature, layer) {
 				var mapCenter = null;
+				typeIconURL[feature.properties.type] = `svg/${feature.properties.type}.svg`;
+				icon = createIcon(feature.properties.type);
 				layer.bindTooltip(feature.properties.name); 
+				console.log(feature.properties.type)
 				//icon = createIcon(feature.properties.type);
-				//layer.setIcon(icon);
+				layer.setIcon(icon);
 				layer.on('click', function(e) {
 					$('#leftbar').css('display','block');
 					var currentZoom = map.getZoom();
@@ -416,14 +421,14 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 				layer.on('mouseover', function(e) {
 				// change the icon properties of that layer
 				icon = layer.getIcon();
-				// icon.options.iconSize = 70;
-				// layer.setIcon(icon);
+				 icon.options.iconSize = 70;
+				 layer.setIcon(icon);
 				
 				});
 				layer.on('mouseout', function(e) {
 					icon = layer.getIcon();
-					// icon.options.iconSize = 30;
-					// layer.setIcon(icon);
+					 icon.options.iconSize = 30;
+					 layer.setIcon(icon);
 				});
 	
 }
@@ -437,9 +442,34 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 
         map.on('click', function (e) {
             console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
+		});
+		console.log(typeIconURL);
+		// const typeIconURL = {
+		// 	bar : 'svgs/bar-15.svg',
+		// 	museum : 'svgs/museum-15.svg',
+		// 	restaurant : 'svgs/restaurant-15.svg',
+		// 	home : 'svgs/home-15.svg',
+		// 	park : 'svgs/park-15.svg',
+		// 	monument : 'svgs/monument-15.svg',
+		// 	work : 'svgs/landmark-15.svg'
+		// }
+		function createIcon(featureType) {
+        let iconURL = "", // declare the iconURL
+            iconSize = 30; // create default size
+        
+        let result = new L.Icon.Default;// Use the default Icon if a custom Icon is not set
+		iconURL  = `svg/${featureType}.svg`;
+		
+  
+    
+        result = L.icon({
+            iconUrl: iconURL,
+            iconSize: iconSize,
+            popupAnchor: [0, -10] // Center of your icon is [0,0]
         });
-
-	
+        
+        return result;
+}
 		$(document).ready(function(){
 				//$('#leftbar').css('display','none');
   $('.next').on('click', function(){
