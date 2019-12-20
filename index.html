@@ -199,14 +199,14 @@
 		@media screen and (orientation : portrait) {
             .grid-container {
             display: grid;
-            grid-template-columns: 100vw;
-            grid-template-rows: 50% 50%;
+            grid-template-columns: 25vw 50vw 25vw;
+            grid-template-rows: 50vh 25vh 25vh;
         }
             #map {
             width: 100%;
-            height: 100%; /* Fill screen, but... */
-            grid-column: 1 / 2; /* Start at grid line 1 and end at 2. That's the left column. */
-            grid-row: 1 / 2; /* This spans the top and bottom columns. */
+            height: 50vh; /* Fill screen, but... */
+           /* grid-column: 1 / 4;  Start at grid line 1 and end at 2. That's the left column. */
+           /* grid-row: 1 / 2;  This spans the top and bottom columns. */
 			
             
 		}
@@ -214,8 +214,8 @@
             width: 100%;
             grid-row-start: 2;
             grid-row-end: 3;
-            grid-column-start: 1;
-            grid-column-end: 2;
+            grid-column-start: 2;
+            grid-column-end: 4;
         }
 
 		#right
@@ -224,17 +224,17 @@
             grid-row-start: 1;
             grid-row-end: 2;
             grid-column-start: 1;
-            grid-column-end: 2;
+            grid-column-end: 4;
 		}
         #info
         {
 			z-index: 1000;
             width: 100%;
             height: 50vh;
-            grid-row-start: 2;
+            grid-row-start: 3;
             grid-row-end: 3;
             grid-column-start: 1;
-            grid-column-end: 2;
+            grid-column-end: 4;
         }
 
         #about {
@@ -247,14 +247,14 @@
 .container{
         margin-top: 0;
 		width:100%;
-		
+		height:25vh;
 		
 		overflow:none;
 		
 }
 .slider-inner{
-	width:100%;
-	height:50vh;
+	width:50vw;
+	height:25vh;
 	position:relative;
 	overflow:hidden;
 	float:left;
@@ -266,6 +266,25 @@
 	width:100%;
 	height:100%;
 	
+}
+.prev,.next{
+	float:left;
+	margin-top:50px;
+	height:40px;
+	cursor: pointer;
+}
+.prev{
+	position:relative;
+	margin-right: -30px;
+	z-index:1000;
+	visibility:hidden;
+}
+
+.next{
+	position:relative;
+	margin-left: -30px;
+	z-index:1000;
+	visibility:hidden;
 }
         }/*end @media potrait*/
 	</style>
@@ -313,24 +332,20 @@
 	<section id="about">
 		<h2>About this</h2>
 			<p>This map was created using leaflet and all pictures are from the respective establishment instagram page. The data locations was acquired from  
-				<a href="https://www.google.com/maps">the data</a> and map goes here. 
+				<a href="https://www.google.com/maps"> Google maps </a>and some <a href="https://www.tripadvisor.com">Trip Advisor</a>. 
 				 </p>
 			<p>Map authored by me, Giscard Gomperts</p>
 	</section>
 </div>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-	<!-- Load a Leaflet plugin to provide geolocation. -->
-	<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+	<!-- Load a Leaflet plugin to provide geolocation.-->
+	<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script> 
 	<script src="data/locations.js"></script>
 	
 	<script>
-	
-
-// Lat, Lon : 11.95872339364665, -68.61854553222658 
-// Lat, Lon : 12.403718327470736, -69.19807434082033
-var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
-            corner2 = L.latLng(12.403718327470736, -69.19807434082033),
-            bounds = L.latLngBounds(corner1, corner2);
+		var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
+		corner2 = L.latLng(12.403718327470736, -69.19807434082033),
+		bounds = L.latLngBounds(corner1, corner2);
 
 		var options = {
 			center: [12.197086508512358, -69.00650024414064],
@@ -343,6 +358,7 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 				title: "Show me where I am, yo!"
 			}
 		}
+
 		var map = L.map('map', options);
         map.fitBounds(bounds);
 		// add zoom control to top right window position
@@ -377,23 +393,23 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 			
 			//L.marker(props[i].geometry.coordinates).addTo(map)
 		}
-		const typeIconURL = {};
+		// const typeIconURL = {};
 		var pointsLayer = L.geoJSON(places, {
 			style: function (feature) {
 				return {color: feature.properties.color};
 			},
 			onEachFeature : function(feature, layer) {
-				var mapCenter = null;
-				typeIconURL[feature.properties.type] = `svg/${feature.properties.type}.svg`;
+				// var mapCenter = null;
+				// typeIconURL[feature.properties.type] = `svg/${feature.properties.type}.svg`;
 				icon = createIcon(feature.properties.type);
-				layer.bindTooltip(feature.properties.name); 
-				console.log(feature.properties.type)
+				layer.bindTooltip(`<h2>${feature.properties.name}</h2>`); 
+				// console.log(feature.properties.type)
 				//icon = createIcon(feature.properties.type);
 				layer.setIcon(icon);
 				layer.on('click', function(e) {
-					$('#leftbar').css('display','block');
+					// $('#leftbar').css('display','block');
 					var currentZoom = map.getZoom();
-					console.log(feature.properties.pics);
+					// console.log(feature.properties.pics);
 					map.flyTo(e.target.getLatLng(), (currentZoom < 13 ) ? currentZoom + 0.5 : currentZoom );
 						$("#info").html(`<h2>${feature.properties.name}</h2><p>${layer.feature.properties.description}</p>`);
 					$(".slider-inner").html( '' );
@@ -432,27 +448,14 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 				});
 	
 }
-		}).bindPopup(function (layer) {
-			//return layer.feature.properties.description;
-		})
-		.on('click', function(layer) { console.log(layer) })
-		.addTo(map);
+		}).addTo(map);
 
 
 
         map.on('click', function (e) {
             console.log("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng);
 		});
-		console.log(typeIconURL);
-		// const typeIconURL = {
-		// 	bar : 'svgs/bar-15.svg',
-		// 	museum : 'svgs/museum-15.svg',
-		// 	restaurant : 'svgs/restaurant-15.svg',
-		// 	home : 'svgs/home-15.svg',
-		// 	park : 'svgs/park-15.svg',
-		// 	monument : 'svgs/monument-15.svg',
-		// 	work : 'svgs/landmark-15.svg'
-		// }
+		// console.log(typeIconURL);
 		function createIcon(featureType) {
         let iconURL = "", // declare the iconURL
             iconSize = 30; // create default size
@@ -473,34 +476,42 @@ var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 		$(document).ready(function(){
 				//$('#leftbar').css('display','none');
   $('.next').on('click', function(){
-
+		$('.prev').css('visibility','visible');
 		var currentImg = $('.active');
 		var nextImg = currentImg.next();
-
+		//console.log(nextImg);
 		if(nextImg.length){
 		currentImg.removeClass('active').css('z-index', -10);
 		nextImg.addClass('active').css('z-index', 10);
-			$('.next').css('visibility','visible');
-			$('.prev').css('visibility','visible');
-		}else{
+		console.log(nextImg.next())
+			if(nextImg.next().length){
+
+				$('.next').css('visibility','visible');
+				
+			}
+			else{
 			$('.next').css('visibility','hidden');
 			
+			}
 		}
 	});
 
 	$('.prev').on('click', function(){
+		$('.next').css('visibility','visible');
 		var currentImg = $('.active');
 		var prevImg = currentImg.prev();
 
 		if(prevImg.length){
 		currentImg.removeClass('active').css('z-index', -10);
 		prevImg.addClass('active').css('z-index', 10);
-		$('.prev').css('visibility','visible');
-		$('.next').css('visibility','visible');
+		if(prevImg.prev().length){
+			$('.prev').css('visibility','visible');
+		
 		}else{
-			$('.next').css('visibility','visible');
+			
 			$('.prev').css('visibility','hidden');
 		}
+	}
 	});
 });
 
