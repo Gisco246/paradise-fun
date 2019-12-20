@@ -199,7 +199,7 @@
 		@media screen and (orientation : portrait) {
             .grid-container {
             display: grid;
-            grid-template-columns: 25vw 50vw 25vw;
+            grid-template-columns: 15vw 70vw 15vw;
             grid-template-rows: 50vh 25vh 25vh;
         }
             #map {
@@ -215,7 +215,7 @@
             grid-row-start: 2;
             grid-row-end: 3;
             grid-column-start: 2;
-            grid-column-end: 4;
+            grid-column-end: 3;
         }
 
 		#right
@@ -234,7 +234,7 @@
             grid-row-start: 3;
             grid-row-end: 3;
             grid-column-start: 1;
-            grid-column-end: 4;
+            grid-column-end: 3;
         }
 
         #about {
@@ -244,48 +244,48 @@
                 display: none;
             }
 
-.container{
-        margin-top: 0;
-		width:100%;
-		height:25vh;
-		
-		overflow:none;
-		
-}
-.slider-inner{
-	width:50vw;
-	height:25vh;
-	position:relative;
-	overflow:hidden;
-	float:left;
-	padding:0;
-	border:0;
-}
-.slider-inner img{
-	display:none;
-	width:100%;
-	height:100%;
-	
-}
-.prev,.next{
-	float:left;
-	margin-top:50px;
-	height:40px;
-	cursor: pointer;
-}
-.prev{
-	position:relative;
-	margin-right: -30px;
-	z-index:1000;
-	visibility:hidden;
-}
+		.container{
+				margin-top: 5px;
+				width:100%;
+				height:25vh;
+				
+				overflow:none;
+				
+		}
+		.slider-inner{
+			width:65vw;
+			height:25vh;
+			position:relative;
+			overflow:hidden;
+			float:left;
+			padding:0;
+			border:0;
+		}
+		.slider-inner img{
+			display:none;
+			width:100%;
+			height:100%;
+			
+		}
+		.prev,.next{
+			float:left;
+			margin-top:50px;
+			height:40px;
+			cursor: pointer;
+		}
+		.prev{
+			position:relative;
+			margin-right: -30px;
+			z-index:1000;
+			visibility:hidden;
+		}
 
-.next{
-	position:relative;
-	margin-left: -30px;
-	z-index:1000;
-	visibility:hidden;
-}
+		.next{
+			position:relative;
+			margin-left: -30px;
+			z-index:1000;
+			visibility:hidden;
+		}
         }/*end @media potrait*/
 	</style>
 </head>
@@ -402,7 +402,7 @@
 				// var mapCenter = null;
 				// typeIconURL[feature.properties.type] = `svg/${feature.properties.type}.svg`;
 				icon = createIcon(feature.properties.type);
-				layer.bindTooltip(`<h2>${feature.properties.name}</h2>`); 
+				layer.bindTooltip(`<h2>${feature.properties.name}</h2>`,{offset: [0,-30], direction:'top',opacity :.7}); 
 				// console.log(feature.properties.type)
 				//icon = createIcon(feature.properties.type);
 				layer.setIcon(icon);
