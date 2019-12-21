@@ -72,7 +72,20 @@
 			border-radius: 5px;
 			z-index: 800;
 		}
-		
+		#about-small {
+			position: absolute;
+			bottom: 20px;
+			left: 470px;
+			width: 70px;
+			padding: 0 15px;
+			/* Add styles to match Leaflet UI elements */
+			background: rgba(256, 256, 256, .3);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			z-index: 800;
+			visibility: hidden;
+		}
 		
         #leftbar {
             padding:0;
@@ -159,17 +172,60 @@
 .prev{
 	position:relative;
 	margin-right:-45px;
-	z-index:1000;
+	z-index:500;
 	visibility:hidden;
 }
 
 .next{
 	position:relative;
 	margin-left:-45px;
-	z-index:1000;
+	z-index:500;
 	visibility:hidden;
 }
+#background {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(68, 68, 68, 0.8);
+	z-index: 1000;
+}
 
+.close-background {
+	position: absolute;
+	right: 30px;
+	top: 10px;
+	color: white;
+	font-weight: 900;
+	font-size: 2em;
+        }
+
+#photo {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	margin: 0 auto;
+	height: 80vh;
+	width: auto;
+	z-index: 1000;
+	text-align: center;
+	/* background-color: rgb(194, 194, 194); */
+}
+img.funpic {
+    border-radius: 2.5%;
+}
+
+img.funpic-hires {
+	width: 100%;
+	height: auto;
+	z-index: 9999;
+
+ }
+
+.funpic:hover {
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.9), 0 0px 20px rgba(255, 165, 0, 0.4);
+}
 		/* 
 		When browser is 900px high or less
 		make the font a little smaller.
@@ -218,6 +274,36 @@
             grid-column-end: 3;
         }
 
+#background {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(68, 68, 68, 0.8);
+	z-index: 2000;
+}
+
+.close-background {
+	position: absolute;
+	left: 30px;
+	top: 10px;
+	color: white;
+	font-weight: 900;
+	font-size: 2em;
+        }
+
+#photo {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	
+	margin: 0 auto;
+	height: auto;
+	width: 90vw;
+	z-index: 2000;
+	text-align: center;
+	/* background-color: rgb(194, 194, 194); */
+}
 		#right
 		 {
             padding: 0;
@@ -276,14 +362,14 @@
 		.prev{
 			position:relative;
 			margin-right: -30px;
-			z-index:1000;
+			z-index:500;
 			visibility:hidden;
 		}
 
 		.next{
 			position:relative;
 			margin-left: -30px;
-			z-index:1000;
+			z-index:500;
 			visibility:hidden;
 		}
         }/*end @media potrait*/
@@ -295,7 +381,10 @@
  <!-- start grid container -->
  <div class="grid-container">
 	<h1>Fun on Paradise</h1>
-
+	<div id="background">
+		<p class="close-background">×</p>
+		<div id="photo"></div>
+	</div>
 	
     <section id = "leftbar">
 		<div class="container">
@@ -336,6 +425,9 @@
 				 </p>
 			<p>Map authored by me, Giscard Gomperts</p>
 	</section>
+	<section id="about-small">
+		<h2>About</h2>
+	</section>
 </div>
 	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 	<!-- Load a Leaflet plugin to provide geolocation.-->
@@ -343,6 +435,19 @@
 	<script src="data/locations.js"></script>
 	
 	<script>
+
+		var photoBackground = document.getElementById("background");
+        var photo = document.getElementById("photo");
+        photoBackground.addEventListener("click", function(){
+            this.style.display = "none";
+        });
+
+	function popupPic(url){
+		console.log(url);
+		photoBackground.style.display = "inherit";
+		photo.innerHTML = `<img src = '${url}' class='funpic funpic-hires'>`;
+
+	}
 		var corner1 = L.latLng(11.976188156130563, -68.73458862304689),
 		corner2 = L.latLng(12.403718327470736, -69.19807434082033),
 		bounds = L.latLngBounds(corner1, corner2);
@@ -421,11 +526,12 @@
 						$('.prev').css('visibility','hidden');
 					}
 					for (let i = 0 ; i < feature.properties.pics; i ++){
+						var url =  `img/${feature.properties.type}/${i+1}.jpg`;
 						if (i==0){
-							$(".slider-inner").append(`<img src='img/${feature.properties.type}/${i+1}.jpg' class='active'>`)
+							$(".slider-inner").append(`<img src='${url}' class='active' onclick=popupPic("${url}")>`)
 							
 						}else{
-							$(".slider-inner").append(`<img src='img/${feature.properties.type}/${i+1}.jpg'>`)
+							$(".slider-inner").append(`<img src='${url}' onclick=popupPic("${url}")>`)
 							
 						} 
 						
@@ -513,6 +619,16 @@
 		}
 	}
 	});
+$('#about').on('click', function(){
+	$('#about').css('visibility','hidden');
+	$('#about-small').css('visibility','visible');
+});
+
+$('#about-small').on('click', function(){
+	$('#about').css('visibility','visible');
+	$('#about-small').css('visibility','hidden');
+});
+
 });
 
 	</script>
